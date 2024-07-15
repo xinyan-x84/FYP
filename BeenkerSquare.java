@@ -123,7 +123,7 @@ public class BeenkerSquare extends JPanel {
         int Count = 0;
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter("D:\\F5.txt");
+            writer = new PrintWriter("D:\\S3.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
