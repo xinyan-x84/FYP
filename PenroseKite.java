@@ -10,8 +10,7 @@ import java.io.IOException;
 import static java.lang.Math.*;
 import static java.util.stream.Collectors.toList;
 
-
-public class PenroseTiling extends JPanel {
+public class PenroseKite extends JPanel {
     // ignores missing hash code
     class Tile {
         double x, y, angle, size;
@@ -25,12 +24,11 @@ public class PenroseTiling extends JPanel {
             size = s;
         }
 
-
         @Override
         public boolean equals(Object o) {
             if (o instanceof Tile) {
                 Tile t = (Tile) o;
-                return type == t.type && x-t.x<0.000001 && x-t.x>-0.000001 && y-t.y<0.000001 && y-t.y>-0.000001 && angle-t.angle<0.000001 && angle-t.angle>-0.000001;
+                return type == t.type && Math.abs(x - t.x) < 0.000001 && Math.abs(y - t.y) < 0.000001 && Math.abs(angle - t.angle) < 0.000001;
             }
             return false;
         }
@@ -39,25 +37,24 @@ public class PenroseTiling extends JPanel {
     enum Type {
         Kite, Dart
     }
+
     static final double G = (1 + sqrt(5)) / 2; // golden ratio
     static final double T = toRadians(36); // theta
 
     List<Tile> tiles = new ArrayList<>();
 
-
-
-    public PenroseTiling() {
+    public PenroseKite() {
         int w = 700, h = 450;
         setPreferredSize(new Dimension(w, h));
         setBackground(Color.white);
 
-        tiles = deflateTiles(setupPrototiles(w, h), 5); //change the roll
+        tiles = deflateTiles(setupPrototiles(w, h), 5); //change the generation
     }
 
     List<Tile> setupPrototiles(int w, int h) {
         List<Tile> proto = new ArrayList<>();
-        proto.add(new Tile(Type.Kite, w / 2, h / 2, toRadians(90), w / 2.5)); //change the amount of dart //toRadians(90)change the degree
-        //proto.add(new Tile(Type.Dart, w / 2, h / 2, toRadians(102), w / 2.5)); //same
+        proto.add(new Tile(Type.Kite, w / 2, h / 2, toRadians(90), w / 2.5)); // change the amount of dart // toRadians(90) change the degree
+        // proto.add(new Tile(Type.Dart, w / 2, h / 2, toRadians(102), w / 2.5)); // same
         return proto;
     }
 
@@ -92,9 +89,9 @@ public class PenroseTiling extends JPanel {
 
     void drawTiles(Graphics2D g) {
         double[][] dist = {{G, G, G}, {-G, -1, -G}};
-        int Count =0;
+        int Count = 0;
         try {
-            FileWriter writer = new FileWriter("D:\\FYP\\FYP2\\PenroseTiling\\KiteAndDart\\Kite\\Degree\\K5.txt");
+            FileWriter writer = new FileWriter("D:\\K5.txt");
             for (Tile tile : tiles) {
                 double angle = tile.angle - T;
 
@@ -109,22 +106,21 @@ public class PenroseTiling extends JPanel {
                     path.lineTo(x, y);
                     writer.write(String.format("%.4f %.4f%n", x, y));
                     angle += T;
-
                 }
 
                 path.closePath();
-                g.setColor(ord == 0 ? Color. orange: Color.yellow);
+                g.setColor(ord == 0 ? Color.orange : Color.yellow);
                 g.fill(path);
                 g.setColor(Color.darkGray);
                 g.draw(path);
                 Count++;
-                //System.out.println("The angle of the tile is: "+tile.angle/(2*PI)+"\n");
+                // System.out.println("The angle of the tile is: " + tile.angle / (2 * PI) + "\n");
             }
-            //writer.write("The number of tiles is: " + Count);
+            // writer.write("The number of tiles is: " + Count);
             writer.close();
             System.out.println("The number of tiles is: " + Count);
         } catch (IOException e) {
-            System.out.println("写入失败：" + e.getMessage());
+            System.out.println("Write failed: " + e.getMessage());
         }
     }
 
@@ -132,10 +128,9 @@ public class PenroseTiling extends JPanel {
     public void paintComponent(Graphics og) {
         super.paintComponent(og);
         Graphics2D g = (Graphics2D) og;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        g.translate(110, 500);//change this number to move image around
-        g.scale(1.4,1.4); //change this number to change the size of the image
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.translate(110, 500); // change this number to move image around
+        g.scale(1.4, 1.4); // change this number to change the size of the image
         drawTiles(g);
     }
 
@@ -145,12 +140,10 @@ public class PenroseTiling extends JPanel {
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             f.setTitle("Penrose Tiling");
             f.setResizable(true);
-            f.add(new PenroseTiling(), BorderLayout.CENTER);
+            f.add(new PenroseKite(), BorderLayout.CENTER);
             f.pack();
             f.setLocationRelativeTo(null);
             f.setVisible(true);
         });
-
-
     }
 }
