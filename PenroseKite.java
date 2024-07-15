@@ -55,7 +55,7 @@ public class PenroseTiling extends JPanel {
     List<Tile> setupPrototiles(int w, int h) {
         List<Tile> proto = new ArrayList<>();
             proto.add(new Tile(Type.Kite, w / 2, h / 2, toRadians(90), w / 2.5)); //change the amount of dart //toRadians(90)change the degree
-            proto.add(new Tile(Type.Kite, w / 2, h / 2, toRadians(162), w / 2.5)); //same
+         //proto.add(new Tile(Type.Kite, w / 2, h / 2, toRadians(162), w / 2.5)); //same
          //proto.add(new Tile(Type.Dart, w / 2, h / 2, toRadians(90), w / 2.5));
          //proto.add(new Tile(Type.Dart, w / 2, h / 2, toRadians(162), w / 2.5));
         
